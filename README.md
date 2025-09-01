@@ -60,7 +60,7 @@ Cliquez sur "Sauvegarder"
 Relancez Valheim pour voir les changements
 
 📁 Structure du projet
-AutoMapPins-ConfigManager/
+AutoMapPins-ConfigManager/\n
 ├── 📄 main.py                    # Point d'entrée
 ├── 🎨 gui.py                     # Interface utilisateur
 ├── ⚙️ config_manager.py          # Gestion des configs YAML
