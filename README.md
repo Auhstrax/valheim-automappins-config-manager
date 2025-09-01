@@ -17,20 +17,6 @@ Un gestionnaire graphique simple et intuitif pour configurer les catégories du 
 - ✅ **Historique des backups** avec timestamp
 - ✅ **Exécutable Windows** - Aucune installation Python requise
 
-## 📸 Aperçu
-🔥 AutoMapPins Config Manager
-┌─────────────────────────────────────────┐
-│ Fichier: FixItFelix.AutoMapPins...     │
-├─────────────────────────────────────────┤
-│ ☑️ Creatures                            │
-│ ☑️ Dungeons                             │
-│ ☐ Resources                             │
-│ ☑️ Structures                           │
-│ ☐ Treasures                             │
-├─────────────────────────────────────────┤
-│        [Sauvegarder]  [Annuler]        │
-└─────────────────────────────────────────┘
-
 ## 🛠️ Installation
 
 ### Option 1: Exécutable Windows (Recommandé)
