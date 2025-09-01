@@ -59,16 +59,6 @@ Cochez/décochez les catégories que vous voulez activer
 Cliquez sur "Sauvegarder"
 Relancez Valheim pour voir les changements
 
-📁 Structure du projet
-AutoMapPins-ConfigManager/\n
-├── 📄 main.py                    # Point d'entrée
-├── 🎨 gui.py                     # Interface utilisateur
-├── ⚙️ config_manager.py          # Gestion des configs YAML
-├── 💾 backup_manager.py          # Système de sauvegarde
-├── 📋 default_config.yaml        # Configuration par défaut
-├── 📦 requirements.txt           # Dépendances Python
-├── 🏗️ build_exe.py              # Script de compilation
-└── 📁 backup/                    # Sauvegardes automatiques
 🔧 Compilation en exécutable
 # Installez PyInstaller
 pip install pyinstaller
