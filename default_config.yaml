@@ -39,89 +39,117 @@ ores:
         green: 192
         blue: 200
         alpha: 255
-  isActive: true
-  iconName: mine
-giant_ores:
-  individualConfiguredObjects:
-    giant_brain:
-      name: Brain
-      isPermanent: false
-      isActive: true
-    giant_helmet1:
-      name: Helmet
-      isPermanent: false
-      isActive: true
-      groupable: true
-    giant_helmet2:
-      name: Helmet
-      isPermanent: false
-      isActive: true
-      groupable: true
-    giant_ribs:
-      name: Ribs
-      isPermanent: false
-      isActive: true
-      groupable: true
-    giant_skull:
-      name: Skull
-      isPermanent: false
-      isActive: true
-      groupable: true
-    giant_sword1:
-      name: Sword
-      isPermanent: false
-      isActive: true
-      groupable: true
-    giant_sword2:
-      name: Sword
-      isPermanent: false
-      isActive: true
-      groupable: true
-  isActive: false
-  iconName: mine
-  iconColorRGBA:
-    red: 17
-    green: 150
-    blue: 226
-    alpha: 255
-guck_ores:
-  individualConfiguredObjects:
     GuckSack:
       name: Guck
       isPermanent: false
       isActive: true
       groupable: true
+      iconColorRGBA:
+        red: 100
+        green: 236
+        blue: 52
+        alpha: 255
     GuckSack_small:
       name: Guck
       isPermanent: false
       isActive: true
       groupable: true
-  isActive: false
-  iconName: mine
-  iconColorRGBA:
-    red: 100
-    green: 236
-    blue: 52
-    alpha: 255
-other_ores:
-  individualConfiguredObjects:
+      iconColorRGBA:
+        red: 100
+        green: 236
+        blue: 52
+        alpha: 255
+    giant_brain:
+      name: Brain
+      isPermanent: false
+      isActive: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_helmet1:
+      name: Helmet
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_helmet2:
+      name: Helmet
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_ribs:
+      name: Ribs
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_skull:
+      name: Skull
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_sword1:
+      name: Sword
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
+    giant_sword2:
+      name: Sword
+      isPermanent: false
+      isActive: true
+      groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     LeviathanLava:
       name: Flametal
       isPermanent: true
       isActive: true
+      iconColorRGBA:
+        red: 142
+        green: 90
+        blue: 169
+        alpha: 255
     Mistlands_Swords1:
       name: Sword
       isPermanent: false
       isActive: true
       groupable: true
-  isActive: false
+      iconColorRGBA:
+        red: 142
+        green: 90
+        blue: 169
+        alpha: 255
+  isActive: true
   iconName: mine
-  iconColorRGBA:
-    red: 142
-    green: 90
-    blue: 169
-    alpha: 255
-flowers:
+flower:
   individualConfiguredObjects:
     Pickable_Dandelion:
       isPermanent: false
@@ -139,7 +167,7 @@ flowers:
         green: 144
         blue: 255
         alpha: 255
-  isActive: false
+  isActive: true
   iconName: flower
 tarpits:
   categoryConfiguredObjects:
@@ -172,13 +200,13 @@ seeds:
         green: 69
         blue: 19
         alpha: 255
-  isActive: false
+  isActive: true
   iconName: seed
 portals:
   categoryConfiguredObjects:
   - portal_stone
   - portal_wood
-  isActive: false
+  isActive: true
   isPermanent: true
   iconName: portal
 runestones:
@@ -194,7 +222,7 @@ runestones:
   - Runestone_Mountains
   - Runestone_Plains
   - Runestone_Swamps
-  isActive: false
+  isActive: true
   isPermanent: true
   iconName: rune
   iconColorRGBA:
@@ -228,9 +256,9 @@ mushrooms:
         green: 144
         blue: 255
         alpha: 255
-  isActive: false
+  isActive: true
   iconName: mushroom48
-berries:
+berry:
   individualConfiguredObjects:
     RaspberryBush:
       isPermanent: false
@@ -256,7 +284,7 @@ berries:
         green: 223
         blue: 80
         alpha: 255
-  isActive: false
+  isActive: true
   iconName: berry
 crypt:
   individualConfiguredObjects:
@@ -277,7 +305,7 @@ crypt:
         green: 255
         blue: 240
         alpha: 255
-  isActive: false
+  isActive: true
   name: Crypt
   isPermanent: true
   iconName: dungeon
@@ -292,8 +320,8 @@ special:
   - TreasureChest_heath_hildir
   - Vendor_BlackForest
   - Player_tombstone
-  isActive: false
-pickables:
+  isActive: true
+pickable:
   categoryConfiguredObjects:
   - Pickable_Ashstone
   - Pickable_Barley_Wild
@@ -322,7 +350,7 @@ pickables:
   - Pickable_Tar
   - Pickable_TarBig
   - Pickable_VoltureEgg
-  isActive: false
+  isActive: true
   iconName: hand
 morgenholes:
   categoryConfiguredObjects:
@@ -330,7 +358,7 @@ morgenholes:
   - MorgenHole2
   - MorgenHole3
   name: Morgen
-  isActive: false
+  isActive: true
   isPermanent: true
   iconName: dungeon
 dungeon:
@@ -432,7 +460,7 @@ treasures:
   - TreasureChest_meadows
   - TreasureChest_meadows_buried
   - TreasureChest_mountains
-  isActive: false
+  isActive: true
   iconName: treasure
 environment:
   categoryConfiguredObjects:

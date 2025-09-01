@@ -39,88 +39,116 @@ ores:
         green: 192
         blue: 200
         alpha: 255
-  isActive: true
-  iconName: mine
-giant_ores:
-  individualConfiguredObjects:
     giant_brain:
       name: Brain
       isPermanent: false
-      isActive: true
+      isActive: false
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_helmet1:
       name: Helmet
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_helmet2:
       name: Helmet
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_ribs:
       name: Ribs
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_skull:
       name: Skull
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_sword1:
       name: Sword
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     giant_sword2:
       name: Sword
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
-  isActive: false
-  iconName: mine
-  iconColorRGBA:
-    red: 17
-    green: 150
-    blue: 226
-    alpha: 255
-guck_ores:
-  individualConfiguredObjects:
+      iconColorRGBA:
+        red: 17
+        green: 150
+        blue: 226
+        alpha: 255
     GuckSack:
       name: Guck
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
+      iconColorRGBA:
+        red: 100
+        green: 236
+        blue: 52
+        alpha: 255
     GuckSack_small:
       name: Guck
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
-  isActive: false
-  iconName: mine
-  iconColorRGBA:
-    red: 100
-    green: 236
-    blue: 52
-    alpha: 255
-other_ores:
-  individualConfiguredObjects:
+      iconColorRGBA:
+        red: 100
+        green: 236
+        blue: 52
+        alpha: 255
     LeviathanLava:
       name: Flametal
       isPermanent: true
-      isActive: true
+      isActive: false
+      iconColorRGBA:
+        red: 142
+        green: 90
+        blue: 169
+        alpha: 255
     Mistlands_Swords1:
       name: Sword
       isPermanent: false
-      isActive: true
+      isActive: false
       groupable: true
-  isActive: false
+      iconColorRGBA:
+        red: 142
+        green: 90
+        blue: 169
+        alpha: 255
+  isActive: true
   iconName: mine
-  iconColorRGBA:
-    red: 142
-    green: 90
-    blue: 169
-    alpha: 255
 flowers:
   individualConfiguredObjects:
     Pickable_Dandelion:

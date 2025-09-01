@@ -16,11 +16,19 @@ class ConfigManager():
         self.yaml_data = None
         self.default_active_categories = [
             "ores",
+            "base_ores",
             "tarpits",
             "boss_spawners",
             "spawners",
             "dungeon"
         ]
+        # Mapping des catégories d'origine vers les objets individuels
+        self.ores_mapping = {
+            "guck_ores": ["GuckSack", "GuckSack_small"],
+            "giant_ores": ["giant_brain", "giant_helmet1", "giant_helmet2", "giant_ribs", "giant_skull", "giant_sword1", "giant_sword2"],
+            "other_ores": ["LeviathanLava", "Mistlands_Swords1"],
+            "base_ores": ["rock4_copper", "MineRock_Tin", "MineRock_Obsidian", "silvervein"]
+        }
 
     def _get_default_config_path(self):
         # Récupérer %APPDATA%
@@ -77,6 +85,12 @@ class ConfigManager():
 
                 if not self.yaml_data:
                     return "Erreur, fichier de configuration vide"
+
+            # Fusionner automatiquement les catégories de minerais si elles existent séparément
+            if any(cat in self.yaml_data for cat in ["giant_ores", "guck_ores", "other_ores"]):
+                merge_result = self._merge_ores_categories()
+                if merge_result.startswith("Erreur"):
+                    return merge_result
 
             # Valider la configuration
             is_valid, validation_message = self._validate_config()
@@ -151,12 +165,12 @@ class ConfigManager():
         try:
             categories_status = {}
         
-            # Liste de toutes les catégories attendues
+            # Liste de toutes les catégories attendues (y compris les sous-catégories virtuelles)
             expected_categories = [
-                "ores", "giant_ores", "guck_ores", "other_ores", "flowers", 
-                "tarpits", "seeds", "portals", "runestones", "mushrooms", 
-                "berries", "crypt", "special", "pickables", "morgenholes", 
-                "dungeon", "spawners", "boss_spawners", "treasures"
+                "ores", "base_ores", "guck_ores", "giant_ores", "other_ores", "flower", "tarpits", 
+                "seeds", "portals", "runestones", "mushrooms", "berry", "crypt", 
+                "special", "pickable", "morgenholes", "dungeon", "spawners", 
+                "boss_spawners", "treasures", "environment"
             ]
         
             # Parcourir les catégories dans le YAML
@@ -165,6 +179,9 @@ class ConfigManager():
                     # Récupérer le statut isActive, par défaut False si absent
                     is_active = self.yaml_data[category].get('isActive', False)
                     categories_status[category] = is_active
+                elif category in self.ores_mapping:
+                    # Pour les sous-catégories virtuelles, vérifier si tous leurs objets sont actifs
+                    categories_status[category] = self._get_virtual_category_status(category)
                 else:
                     # Catégorie manquante dans le fichier
                     categories_status[category] = False
@@ -173,6 +190,30 @@ class ConfigManager():
         
         except Exception as e:
             return f"Erreur lors de la lecture des catégories : {str(e)}"
+
+    def _get_virtual_category_status(self, virtual_category):
+        """
+        Obtient le statut d'une catégorie virtuelle en vérifiant ses objets individuels
+        Args: virtual_category (str) - Nom de la catégorie virtuelle
+        Returns: bool - True si tous les objets de la catégorie sont actifs
+        """
+        if virtual_category not in self.ores_mapping:
+            return False
+        
+        if "ores" not in self.yaml_data:
+            return False
+        
+        ores_objects = self.yaml_data["ores"].get("individualConfiguredObjects", {})
+        objects_for_category = self.ores_mapping[virtual_category]
+        
+        # Vérifier si tous les objets de cette catégorie virtuelle sont actifs
+        for obj_name in objects_for_category:
+            if obj_name not in ores_objects:
+                return False
+            if not ores_objects[obj_name].get("isActive", False):
+                return False
+        
+        return True
 
     def update_categories(self, categories_dict):
         """
@@ -191,9 +232,14 @@ class ConfigManager():
         
             for category, is_active in categories_dict.items():
                 if category in self.yaml_data:
-                    # Mettre à jour le statut
+                    # Mettre à jour le statut pour les catégories réelles
                     self.yaml_data[category]['isActive'] = bool(is_active)
                     updated_count += 1
+                elif category in self.ores_mapping:
+                    # Mettre à jour les objets individuels pour les catégories virtuelles
+                    success = self._update_virtual_category(category, bool(is_active))
+                    if success:
+                        updated_count += 1
                 else:
                     # Optionnel : créer la catégorie si elle n'existe pas
                     # (à voir selon tes besoins)
@@ -203,6 +249,30 @@ class ConfigManager():
         
         except Exception as e:
             return f"Erreur lors de la mise à jour : {str(e)}"
+
+    def _update_virtual_category(self, virtual_category, is_active):
+        """
+        Met à jour le statut des objets individuels d'une catégorie virtuelle
+        Args: 
+            virtual_category (str) - Nom de la catégorie virtuelle
+            is_active (bool) - Nouveau statut
+        Returns: bool - True si succès
+        """
+        if virtual_category not in self.ores_mapping:
+            return False
+        
+        if "ores" not in self.yaml_data:
+            return False
+        
+        ores_objects = self.yaml_data["ores"].get("individualConfiguredObjects", {})
+        objects_for_category = self.ores_mapping[virtual_category]
+        
+        # Mettre à jour le statut de tous les objets de cette catégorie virtuelle
+        for obj_name in objects_for_category:
+            if obj_name in ores_objects:
+                ores_objects[obj_name]["isActive"] = is_active
+        
+        return True
 
     def set_category_status(self, category, is_active):
         """
@@ -216,12 +286,27 @@ class ConfigManager():
         if not self.yaml_data:
             return False, "Aucune configuration chargée"
     
-        if category not in self.yaml_data:
-            return False, f"Catégorie '{category}' introuvable"
-    
         try:
-            self.yaml_data[category]['isActive'] = is_active
-            return True, f"Statut de '{category}' mis à jour"
+            if category in self.yaml_data:
+                # Catégorie réelle
+                self.yaml_data[category]['isActive'] = is_active
+                
+                # Si c'est la catégorie "ores", mettre à jour aussi tous les objets individuels
+                if category == "ores" and "ores" in self.yaml_data:
+                    ores_objects = self.yaml_data["ores"].get("individualConfiguredObjects", {})
+                    for obj_name in ores_objects:
+                        ores_objects[obj_name]["isActive"] = is_active
+                
+                return True, f"Statut de '{category}' mis à jour"
+            elif category in self.ores_mapping:
+                # Catégorie virtuelle
+                success = self._update_virtual_category(category, is_active)
+                if success:
+                    return True, f"Statut de '{category}' mis à jour (objets individuels)"
+                else:
+                    return False, f"Erreur lors de la mise à jour de '{category}'"
+            else:
+                return False, f"Catégorie '{category}' introuvable"
         except Exception as e:
             return False, f"Erreur lors de la mise à jour: {str(e)}"
         
@@ -237,12 +322,12 @@ class ConfigManager():
             # Créer le dictionnaire avec toutes les catégories à False
             default_dict = {}
             
-            # Toutes les catégories à False d'abord
+            # Toutes les catégories à False d'abord (y compris les catégories virtuelles)
             all_categories = [
-                "ores", "giant_ores", "guck_ores", "other_ores", "flowers", 
-                "tarpits", "seeds", "portals", "runestones", "mushrooms", 
-                "berries", "crypt", "special", "pickables", "morgenholes", 
-                "dungeon", "spawners", "boss_spawners", "treasures"
+                "ores", "base_ores", "guck_ores", "giant_ores", "other_ores", "flower", "tarpits", 
+                "seeds", "portals", "runestones", "mushrooms", "berry", "crypt", 
+                "special", "pickable", "morgenholes", "dungeon", "spawners", 
+                "boss_spawners", "treasures", "environment"
             ]
         
             for category in all_categories:
@@ -271,12 +356,12 @@ class ConfigManager():
         if not self.yaml_data:
             return False, "Aucune donnée à valider"
     
-        # Liste de toutes les catégories attendues
+        # Liste de toutes les catégories attendues (sans les anciennes catégories de minerais)
         expected_categories = {
-            "ores", "giant_ores", "guck_ores", "other_ores", "flowers", 
-            "tarpits", "seeds", "portals", "runestones", "mushrooms", 
-            "berries", "crypt", "special", "pickables", "morgenholes", 
-            "dungeon", "spawners", "boss_spawners", "treasures"
+            "ores", "flower", "tarpits", "seeds", "portals", "runestones", 
+            "mushrooms", "berry", "crypt", "special", "pickable", 
+            "morgenholes", "dungeon", "spawners", "boss_spawners", "treasures", 
+            "environment"
         }
     
         try:
@@ -336,11 +421,49 @@ class ConfigManager():
         except Exception as e:
             return False, f"Erreur de validation: {str(e)}"
 
-    def _restore_default_config(self):
+    def _merge_ores_categories(self):
         """
-        Restaure la configuration par défaut depuis le fichier default_config.yaml
-        Returns: str - Message de résultat
+        Fusionne les catégories giant_ores, guck_ores et other_ores dans la catégorie ores
+        Utilise les iconColorRGBA des catégories d'origine pour chaque objet individuel
         """
+        if not self.yaml_data:
+            return "Erreur : Aucune donnée chargée"
+        
+        try:
+            # Vérifier que la catégorie ores existe
+            if "ores" not in self.yaml_data:
+                return "Erreur : Catégorie 'ores' introuvable"
+            
+            # Récupérer les données des catégories à fusionner
+            categories_to_merge = {
+                "giant_ores": self.yaml_data.get("giant_ores", {}),
+                "guck_ores": self.yaml_data.get("guck_ores", {}),
+                "other_ores": self.yaml_data.get("other_ores", {})
+            }
+            
+            # Fusionner les objets individuels dans la catégorie ores
+            for category_name, category_data in categories_to_merge.items():
+                if category_data and "individualConfiguredObjects" in category_data:
+                    individual_objects = category_data["individualConfiguredObjects"]
+                    category_color = category_data.get("iconColorRGBA", {})
+                    
+                    for obj_name, obj_data in individual_objects.items():
+                        # Ajouter l'objet à la catégorie ores
+                        self.yaml_data["ores"]["individualConfiguredObjects"][obj_name] = obj_data.copy()
+                        
+                        # Ajouter la couleur de la catégorie si l'objet n'en a pas
+                        if "iconColorRGBA" not in obj_data and category_color:
+                            self.yaml_data["ores"]["individualConfiguredObjects"][obj_name]["iconColorRGBA"] = category_color.copy()
+            
+            # Supprimer les anciennes catégories
+            for category_name in categories_to_merge.keys():
+                if category_name in self.yaml_data:
+                    del self.yaml_data[category_name]
+            
+            return "Fusion des catégories de minerais réussie"
+            
+        except Exception as e:
+            return f"Erreur lors de la fusion : {str(e)}"
         try:
             # Chemin vers le fichier de configuration par défaut
             default_config_path = Path("default_config.yaml")

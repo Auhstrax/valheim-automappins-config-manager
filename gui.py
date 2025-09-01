@@ -169,24 +169,26 @@ class AutoMapPinsGUI(QMainWindow):
         # Définir les noms d'affichage plus jolis
         category_names = {
             "ores": "🪨 Minerais",
-            "giant_ores": "⛰️ Minerais géants", 
-            "guck_ores": "🟢 Minerais Guck",
+            "base_ores": "⚪ Minerais de base",
+            "guck_ores": "🟢 Minerais Guck", 
+            "giant_ores": "⛰️ Minerais géants",
             "other_ores": "🔸 Autres minerais",
-            "flowers": "🌸 Fleurs",
+            "flower": "🌸 Fleur",
             "tarpits": "🖤 Fosses de goudron",
             "seeds": "🌱 Graines",
             "portals": "🌀 Portails",
             "runestones": "🗿 Pierres runiques",
             "mushrooms": "🍄 Champignons",
-            "berries": "🫐 Baies",
+            "berry": "🫐 Baie",
             "crypt": "⚰️ Cryptes",
             "special": "⭐ Spéciaux",
-            "pickables": "📦 Objets ramassables",
+            "pickable": "📦 Objets ramassables",
             "morgenholes": "🕳️ Trous Morgen",
             "dungeon": "🏰 Donjons",
             "spawners": "👹 Spawners",
             "boss_spawners": "👑 Spawners de boss",
-            "treasures": "💰 Trésors"
+            "treasures": "💰 Trésors",
+            "environment": "🌍 Environnement"
         }
         
         # Récupérer le statut des catégories
