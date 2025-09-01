@@ -36,6 +36,7 @@ pip install -r requirements.txt
 # Lancez l'application
 python main.py
 📋 Prérequis
+```
 Pour l'exécutable:
 
 Windows 10/11
@@ -132,5 +133,3 @@ Communauté Valheim pour le support des mods
 
 
   ⭐ N'oubliez pas de donner une étoile si ce projet vous aide !
-
-```
